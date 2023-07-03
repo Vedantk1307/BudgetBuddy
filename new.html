@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comforter&display=swap" rel="stylesheet">
+
+<head>
+    <title>Decorative Webpage</title>
+    <style>
+        /* Global styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgb(202, 195, 195);
+            margin: 0;
+            padding: 0;
+        }
+
+        .video-background {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -1;
+        }
+
+        .container-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-start;
+            margin: 20px;
+        }
+
+        .container {
+            background-color: rgb(182 182 182 / 80%);
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            width: 200px;
+            height: 100px;
+            margin: 10px;
+            color: black;
+            transition: background-color 0.3s;
+        }
+
+        .container:hover {
+            transform: scale(1.05);
+            background-color: rgba(255, 255, 255, 0.6);
+        }
+
+        h1 {
+            color: black;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: black;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* Navigation bar styles */
+        nav {
+            text-align: center;
+            padding: 10px;
+        }
+
+        nav img {
+            width: 100px;
+            height: auto;
+        }
+
+        nav h1 {
+            color: black;
+            font-size: 30px;
+            margin: 0;
+            padding: 0;
+            font-family: 'Comforter', cursive;
+        }
+
+        .container li a {
+            text-decoration: none;
+            align-items: center;
+        }
+
+        .login {
+            font-size: 20px;
+            align-items: center;
+        }
+
+        #login-container {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <video autoplay muted loop class="video-background">
+        <source src="WhatsApp Video 2023-06-22 at 10.15.03 PM.mp4" type="video/mp4">
+    </video>
+
+    <nav>
+        <img src="logo.jpg" alt="Logo">
+        <h1 style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif">BudgetBuddy</h1>
+    </nav>
+
+    <div class="container-wrapper">
+        <div class="container">
+            <ul><a href="login.html" class="login">Login</a></ul>
+            <p>Welcome back! Please enter your credentials to log in.</p>
+            <!-- Login form goes here -->
+        </div>
+
+        <div class="container">
+            <ul><a href="contact.html" class="login">Contact Us</a></ul>
+            <h1></h1>
+            <p>Have a question or need assistance? Contact our support team.</p>
+            <!-- Contact form goes here -->
+        </div>
+    </div>
+
+    <div class="container-wrapper">
+        <div class="container">
+            <ul><a href="about.html" class="login">About Us</a></ul>
+            <h1></h1>
+            <p>Learn more about our company and what we do.</p>
+            <!-- About Us content goes here -->
+        </div>
+
+        <div class="container">
+            <ul><a href="feedback.html" class="login">Feedback</a></ul>
+            <h1></h1>
+            <p>We value your feedback. Let us know how we can improve.</p>
+            <!-- Feedback form goes here -->
+        </div>
+    </div>
+</body>
+
+</html>

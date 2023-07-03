@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Cashbook</title>
+    <style>
+        body {
+
+            font-family: Arial, sans-serif;
+            /* background-image: url(bankingfinance-1.jpg); */
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin:35px auto;
+            padding: 80px;
+            text-align: center;
+            position: relative;
+            top: 50px;
+            background-color: rgb(182 182 182 / 80%);
+            /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); */
+            border-radius: 10px;
+            flex-wrap:wrap;
+        }
+        
+
+        h1 {
+            font-size: 36px;
+            margin-top: 0;
+            color: #000000;
+        }
+
+        p {
+            font-size: 18px;
+            margin-top: 0;
+            color: #000000;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        label {
+            font-size: 20px;
+            color: #000000;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            font-size: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            margin-bottom: 10px;
+            width: 250px;
+        }
+
+        input[type="submit"] {
+            background-color: #333;
+            color: #ffffff;
+            font-size: 20px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #555;
+            transform: scale(1.1);
+        }
+
+        #loginPage {
+            display: block;
+        }
+
+        #mainPage {
+            display: none;
+        }
+
+        #welcomeMessage {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        #limitSetting {
+            margin-top: 20px;
+        }
+
+        #limitSetting label {
+            margin-right: 10px;
+        }
+
+        #limitSaveBtn {
+            background-color: #333;
+            color: #ffffff;
+            font-size: 16px;
+            padding: 8px 16px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+
+        #limitSaveBtn:hover {
+            background-color: #555;
+            transform: scale(1.1);
+        }
+
+        #entriesTable {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        #entriesTable th,
+        #entriesTable td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            color: #070707;
+
+        }
+
+        #entriesTable th {
+            background-color: #f0f0f0;
+        }
+
+        #entriesTable .remove {
+            width: 80px;
+        }
+
+        #total {
+            font-size: 24px;
+            margin-top: 20px;
+            color: #040404;
+            text-align: right;
+        }
+
+        .limitMessage {
+            font-size: 20px;
+            margin-top: 10px;
+        }
+
+        .limitMessage.red {
+            color: red;
+        }
+
+        .limitMessage.green {
+            color: green;
+        }
+        .video-background {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -1;
+        }
+
+    </style>
+</head>
+
+<body>
+    <video autoplay muted loop class="video-background">
+        <source src="WhatsApp Video 2023-06-22 at 10.15.03 PM.mp4" type="video/mp4">
+    </video>
+
+    <div class="container" id="loginPage">
+        <h1>Welcome to BudgetBuddy</h1>
+        <p>Please enter your name to continue:</p>
+        <form id="loginForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <input type="submit" value="Login">
+        </form>
+    </div>
+
+    <div class="container" id="mainPage">
+        <h1>BudgetBuddy</h1>
+        <p id="welcomeMessage"></p>
+        <p>Track your spending and stay within your budget!</p>
+        <form id="addForm">
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" required>
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" name="amount" min="1" required>
+            <input type="submit" value="Add Entry">
+        </form>
+        <table id="entriesTable">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <div id="total">Total Amount Spent: ₹0</div>
+        <div id="limitSetting">
+            <label for="limit">Set Spending Limit:</label>
+            <input type="number" id="limit" name="limit" min="1" required>
+            <input type="button" value="Save" id="limitSaveBtn">
+        </div>
+        <div id="limitMessage"></div>
+    </div>
+
+    <script>
+        const loginPage = document.getElementById('loginPage');
+        const mainPage = document.getElementById('mainPage');
+        const welcomeMessage = document.getElementById('welcomeMessage');
+        const loginForm = document.getElementById('loginForm');
+        const nameInput = document.getElementById('name');
+        const addForm = document.getElementById('addForm');
+        const descriptionInput = document.getElementById('description');
+        const amountInput = document.getElementById('amount');
+        const entriesTable = document.getElementById('entriesTable');
+        const totalDiv = document.getElementById('total');
+        const limitMessageDiv = document.getElementById('limitMessage');
+        let total = 0;
+        let spendingLimit = 500;
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = nameInput.value;
+            welcomeMessage.textContent = `Welcome, ${name}!`;
+            loginPage.style.display = 'none';
+            mainPage.style.display = 'block';
+        });
+
+        addForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const description = descriptionInput.value;
+            const amount = parseInt(amountInput.value);
+
+            const date = new Date().toLocaleDateString();
+            const newRow = entriesTable.insertRow(-1);
+            const dateCell = newRow.insertCell(0);
+            const descriptionCell = newRow.insertCell(1);
+            const amountCell = newRow.insertCell(2);
+            const removeCell = newRow.insertCell(3);
+
+            dateCell.textContent = date;
+            descriptionCell.textContent = description;
+            amountCell.textContent = `₹${amount}`;
+
+            const removeButton = document.createElement('button');
+            removeButton.textContent = 'Remove';
+            removeButton.addEventListener('click', () => {
+                entriesTable.deleteRow(newRow.rowIndex);
+                total -= amount;
+                totalDiv.textContent = `Total Amount Spent: ₹${total}`;
+                checkSpendingLimit();
+            });
+            removeCell.appendChild(removeButton);
+            removeCell.classList.add('remove');
+
+            total += amount;
+            totalDiv.textContent = `Total Amount Spent: ₹${total}`;
+            checkSpendingLimit();
+
+            descriptionInput.value = '';
+            amountInput.value = '';
+        });
+
+        function checkSpendingLimit() {
+            if (total >= spendingLimit) {
+                limitMessageDiv.textContent = "Sorry mate, you couldn't make it 🥺";
+                limitMessageDiv.classList.add('limitMessage', 'red');
+                limitMessageDiv.classList.remove('green');
+            } else {
+                limitMessageDiv.textContent = "Yo, someone's got money 😂";
+                limitMessageDiv.classList.add('limitMessage', 'green');
+                limitMessageDiv.classList.remove('red');
+            }
+        }
+
+        const limitInput = document.getElementById('limit');
+        const limitSaveBtn = document.getElementById('limitSaveBtn');
+
+        limitSaveBtn.addEventListener('click', () => {
+            const newLimit = parseInt(limitInput.value);
+            if (!isNaN(newLimit)) {
+                spendingLimit = newLimit;
+                checkSpendingLimit();
+            }
+        });
+    </script>
+</body>
+</html>
